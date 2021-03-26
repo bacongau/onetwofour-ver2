@@ -1,35 +1,30 @@
 package com.example.onetwofour.Adapter;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
-import com.example.onetwofour.Model.TopicNguPhap;
+
+import com.example.onetwofour.Model.TuVung;
 import com.example.onetwofour.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class TopicAdapter extends BaseAdapter {
+public class TuVungAdapter extends BaseAdapter {
     Context context;
     int layout;
-    ArrayList<TopicNguPhap> arrayList;
-
-    public TopicAdapter(Context context, int layout, ArrayList<TopicNguPhap> arrayList) {
+    ArrayList<TuVung> arrayList;
+    TextToSpeech textToSpeech;
+    public TuVungAdapter(Context context, int layout, ArrayList<TuVung> arrayList) {
         this.context = context;
         this.layout = layout;
         this.arrayList = arrayList;
@@ -51,9 +46,8 @@ public class TopicAdapter extends BaseAdapter {
     }
 
     public class ViewHolder{
-        ImageView img;
-        TextView tv;
-        Button btn;
+        ImageView img,img_sound;
+        TextView tv_desc,tv_word;
     }
 
     @Override
@@ -64,29 +58,39 @@ public class TopicAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(layout,null);
 
-            viewHolder.img = convertView.findViewById(R.id.img_topic_nguphap);
-            viewHolder.tv = convertView.findViewById(R.id.tv_topic_nguphap);
-            viewHolder.btn = convertView.findViewById(R.id.btn_topic_nguphap);
+            viewHolder.img = convertView.findViewById(R.id.img_tuvung);
+            viewHolder.tv_desc = convertView.findViewById(R.id.tv_desc_tuvung);
+            viewHolder.tv_word = convertView.findViewById(R.id.tv_word_tuvung);
+            viewHolder.img_sound = convertView.findViewById(R.id.img_sound_tuvung);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        byte[] Hinh = arrayList.get(position).getImg();
+        byte[] Hinh = arrayList.get(position).getImage();
         Bitmap bm_hinh = BitmapFactory.decodeByteArray(Hinh,0,Hinh.length);
         viewHolder.img.setImageBitmap(bm_hinh);
 
+        viewHolder.tv_desc.setText(arrayList.get(position).getDesc());
+        viewHolder.tv_word.setText(arrayList.get(position).getWord());
 
-        viewHolder.tv.setText(arrayList.get(position).getTopicName());
-        viewHolder.btn.setOnClickListener(new View.OnClickListener() {
+
+        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, TuVung_MauCau_Activity.class);
-                intent.putExtra("topic",arrayList.get(position).getTopicName());
-                context.startActivity(intent);
+            public void onInit(int status) {
+                if(status==TextToSpeech.SUCCESS){
+                    int lang = textToSpeech.setLanguage(Locale.ENGLISH);
+                }
             }
         });
 
+        viewHolder.img_sound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String s = arrayList.get(position).getWord();
+                int speech = textToSpeech.speak(s,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        });
 
         return convertView;
     }

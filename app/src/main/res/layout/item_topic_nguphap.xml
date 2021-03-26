@@ -10,7 +10,7 @@
         android:id="@+id/img_topic_nguphap"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
