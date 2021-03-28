@@ -54,7 +54,7 @@ public class NguPhapActivity extends AppCompatActivity {
                     }
                 }
 
-                if (b.equalsIgnoreCase("All")) {
+                if (b.equalsIgnoreCase("")) {
                     lv.setAdapter(adapter);
                 } else {
                     adapterSearch = new TopicAdapter(NguPhapActivity.this, R.layout.item_topic_nguphap, arrayListSearch);

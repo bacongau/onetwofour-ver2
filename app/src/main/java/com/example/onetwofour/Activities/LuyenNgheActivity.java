@@ -2,9 +2,12 @@ package com.example.onetwofour.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.onetwofour.Adapter.TopicAdapter;
@@ -15,40 +18,21 @@ import com.example.onetwofour.R;
 import java.util.ArrayList;
 
 public class LuyenNgheActivity extends AppCompatActivity {
-    String DATABASE_NAME = "NguPhap db.db";
-    SQLiteDatabase database;
-
-    ListView lv;
-    ArrayList<TopicNguPhap> arrayList;
-    TopicAdapter adapter;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_luyen_nghe);
 
-        anhxa();
-        docdulieu();
-        
+        button = findViewById(R.id.button_zxczc);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LuyenNgheActivity.this,BaiNgheActivity.class));
+            }
+        });
+
     }
 
-    private void docdulieu() {
-        database = DataBase.initDatabase(LuyenNgheActivity.this, DATABASE_NAME);
-        Cursor cursor = database.rawQuery("SELECT * FROM Nguphap", null);
-        arrayList.clear();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String tentopic = cursor.getString(0);
-            byte[] hinh = cursor.getBlob(1);
-            arrayList.add(new TopicNguPhap(hinh, tentopic));
-        }
-        adapter.notifyDataSetChanged();
-    }
-
-    private void anhxa() {
-        lv = findViewById(R.id.lv_bainghe);
-        arrayList = new ArrayList<>();
-        adapter = new TopicAdapter(LuyenNgheActivity.this, R.layout.item_topic_luyennghe, arrayList);
-        lv.setAdapter(adapter);
-    }
 }

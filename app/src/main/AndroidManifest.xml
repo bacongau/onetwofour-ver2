@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.onetwofour">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Onetwofour">
-        <activity android:name=".Activities.TuVung_MauCau_Activity"></activity>
+        <activity android:name=".Activities.BaiDocActivity"></activity>
+        <activity android:name=".Activities.BaiNgheScriptActivity" />
+        <activity android:name=".Activities.BaiNgheActivity" />
+        <activity android:name=".Activities.TuVung_MauCau_Activity" />
         <activity android:name=".Activities.TroChoiActivity" />
         <activity android:name=".Activities.LuyenDocActivity" />
         <activity android:name=".Activities.LuyenNgheActivity" />
