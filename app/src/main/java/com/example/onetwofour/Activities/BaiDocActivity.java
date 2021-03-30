@@ -25,6 +25,12 @@ public class BaiDocActivity extends AppCompatActivity {
 
     }
 
+    public String getMyData() {
+        Bundle bundle = getIntent().getExtras();
+        String a = (String) bundle.get("topicbaidoc");
+        return a;
+    }
+
     private void anhxa() {
         tabLayout = findViewById(R.id.tablayout_luyendoc);
         viewPager = findViewById(R.id.viewpager_luyendoc);

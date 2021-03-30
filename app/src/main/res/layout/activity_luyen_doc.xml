@@ -7,7 +7,7 @@
     tools:context=".Activities.LuyenDocActivity">
 
     <EditText
-        android:id="@+id/edt_find_topic2"
+        android:id="@+id/edt_find_baidoc"
         android:layout_width="266dp"
         android:layout_height="37dp"
         android:layout_marginStart="24dp"
@@ -29,4 +29,15 @@
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lv_baidoc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_zxczc2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
