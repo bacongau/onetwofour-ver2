@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/tv_tenbaidoc"
-        android:layout_width="190dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -41,7 +41,6 @@
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="@+id/img_baidoc"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_tenbaidoc"
         app:layout_constraintTop_toTopOf="@+id/img_baidoc"
         app:layout_constraintVertical_bias="0.312" />
 
