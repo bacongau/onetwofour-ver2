@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,6 +22,7 @@ import com.example.onetwofour.Model.BaiNghe;
 import com.example.onetwofour.R;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class BaiNgheActivity extends AppCompatActivity {
@@ -28,14 +30,15 @@ public class BaiNgheActivity extends AppCompatActivity {
     SQLiteDatabase database;
 
     ArrayList<BaiNghe> arrayList;
-    ArrayList<BaiNghe> arrayList1;
 
     TextView tv_script, tv_tenbainghe, tv_current_time, tv_total_time, tv_bainghetiep;
     ImageView img_dish, img_previous, img_play_pause, img_stop, img_next;
-    SeekBar audioProgess;
+    SeekBar seekBar;
     ProgressBar progressBar;
 
-    String tenbainghe;
+    String a;
+    BaiNghe baiNghe;
+    int position=0;
 
     MediaPlayer mediaPlayer;
 
@@ -44,17 +47,91 @@ public class BaiNgheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bai_nghe);
 
-        tenbainghe = getMyData();
-
         anhxa();
         laydulieu();
-        laybainghehientai();
+
+        // lay bai nghe
+        a = getMyData();
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).getTen().equals(a)){
+                baiNghe = arrayList.get(i);
+                position = i;
+            }
+        }
+
+        khoiTaoMedia(baiNghe);
 
         img_play_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                choinhac();
-                setTenBaiNghe();
+                phatAudio();
+                setTenBaiNghe(baiNghe);
+                UpdateTimeSong();
+            }
+        });
+
+        img_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dungAudio();
+                setTenBaiNghe(baiNghe);
+            }
+        });
+
+        img_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position++;
+                if (position > arrayList.size()-1){
+                    position = 0;
+                }
+                baiNghe = arrayList.get(position);
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                }
+                khoiTaoMedia(baiNghe);
+                setTenBaiNghe(baiNghe);
+                mediaPlayer.start();
+                img_play_pause.setImageResource(R.drawable.pause);
+                SetTimeTotal();
+                UpdateTimeSong();
+            }
+        });
+
+        img_previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                position--;
+                if (position<0){
+                    position = arrayList.size() - 1;
+                }
+                baiNghe = arrayList.get(position);
+                if (mediaPlayer.isPlaying()){
+                    mediaPlayer.stop();
+                }
+                khoiTaoMedia(baiNghe);
+                setTenBaiNghe(baiNghe);
+                mediaPlayer.start();
+                img_play_pause.setImageResource(R.drawable.pause);
+                SetTimeTotal();
+                UpdateTimeSong();
+            }
+        });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(seekBar.getProgress());
             }
         });
 
@@ -67,49 +144,57 @@ public class BaiNgheActivity extends AppCompatActivity {
 //        });
     }
 
-    private void setTenBaiNghe() {
-        String c = arrayList1.get(0).getTen();
-        tv_tenbainghe.setText(c);
+    private void UpdateTimeSong(){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
+                tv_current_time.setText(dinhDangGio.format(mediaPlayer.getCurrentPosition()));
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                handler.postDelayed(this,500);
+            }
+        },100);
     }
 
-    private void choinhac() {
-        String url = arrayList1.get(0).getLink();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+    private void SetTimeTotal(){
+        SimpleDateFormat dinhDangGio = new SimpleDateFormat("mm:ss");
+        tv_total_time.setText(dinhDangGio.format(mediaPlayer.getDuration()) + "");
+        seekBar.setMax(mediaPlayer.getDuration());
+    }
 
+    private void setTenBaiNghe(BaiNghe baiNghe) {
+        tv_tenbainghe.setText(baiNghe.getTen());
+    }
+
+    private void dungAudio() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        img_play_pause.setImageResource(R.drawable.play);
+        khoiTaoMedia(baiNghe);
+    }
+
+    private void phatAudio() {
+        if (mediaPlayer.isPlaying()){
+            mediaPlayer.pause();
+            img_play_pause.setImageResource(R.drawable.play);
+        }else {
+            mediaPlayer.start();
+            progressBar.setVisibility(View.GONE);
+            img_play_pause.setImageResource(R.drawable.pause);
+        }
+        SetTimeTotal();
+    }
+
+    private void khoiTaoMedia(BaiNghe baiNghe) {
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
-            mediaPlayer.setDataSource(url);
+            mediaPlayer.setDataSource(baiNghe.getLink());
             mediaPlayer.prepareAsync();
             progressBar.setVisibility(View.VISIBLE);
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    progressBar.setVisibility(View.GONE);
-
-                    if (mp.isPlaying()){
-                        mp.pause();
-                        img_play_pause.setImageResource(R.drawable.play);
-                    }else {
-                        mp.start();
-                        img_play_pause.setImageResource(R.drawable.pause);
-                    }
-                }
-            });
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void laybainghehientai() {
-        database = DataBase.initDatabase(BaiNgheActivity.this, DATABASE_NAME);
-        Cursor cursor = database.rawQuery("SELECT * FROM Luyennghe WHERE ten = '" + tenbainghe + "'", null);
-        arrayList1.clear();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String ten = cursor.getString(0);
-            byte[] hinh = cursor.getBlob(1);
-            String link = cursor.getString(2);
-            String script = cursor.getString(3);
-            arrayList1.add(new BaiNghe(ten, hinh, link, script));
         }
     }
 
@@ -128,23 +213,24 @@ public class BaiNgheActivity extends AppCompatActivity {
     }
 
     private void anhxa() {
-        tv_tenbainghe = findViewById(R.id.tv_audio_tenbainghe);
-        tv_script = findViewById(R.id.tv_audio_script);
+        tv_tenbainghe   = findViewById(R.id.tv_audio_tenbainghe);
+        tv_script       = findViewById(R.id.tv_audio_script);
         tv_current_time = findViewById(R.id.tv_audio_current_time);
-        tv_total_time = findViewById(R.id.tv_audio_total_time);
-        tv_bainghetiep = findViewById(R.id.tv_audio_bainghe_tieptheo);
-        img_dish = findViewById(R.id.img_audio_dish);
-        img_play_pause = findViewById(R.id.img_audio_play_pause);
-        img_previous = findViewById(R.id.img_audio_previous);
-        img_stop = findViewById(R.id.img_audio_stop);
-        img_next = findViewById(R.id.img_audio_next);
-        audioProgess = findViewById(R.id.sb_audio_progess);
-        progressBar = findViewById(R.id.progressBar);
+        tv_total_time   = findViewById(R.id.tv_audio_total_time);
+        tv_bainghetiep  = findViewById(R.id.tv_audio_bainghe_tieptheo);
+
+        img_dish        = findViewById(R.id.img_audio_dish);
+        img_play_pause  = findViewById(R.id.img_audio_play_pause);
+        img_previous    = findViewById(R.id.img_audio_previous);
+        img_stop        = findViewById(R.id.img_audio_stop);
+        img_next        = findViewById(R.id.img_audio_next);
+
+        seekBar    = findViewById(R.id.sb_audio_progess);
+
+        progressBar     = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
 
-        arrayList = new ArrayList<>();
-        arrayList1 = new ArrayList<>();
-        mediaPlayer = new MediaPlayer();
+        arrayList       = new ArrayList<>();
     }
 
     public String getMyData() {
