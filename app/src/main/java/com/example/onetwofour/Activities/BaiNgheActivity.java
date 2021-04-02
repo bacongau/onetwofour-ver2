@@ -59,6 +59,14 @@ public class BaiNgheActivity extends AppCompatActivity {
             }
         }
 
+        // doi ten bai nghe
+        tv_tenbainghe.setText(baiNghe.getTen());
+        if (position == arrayList.size()-1){
+            tv_bainghetiep.setText(arrayList.get(0).getTen());
+        }else {
+            tv_bainghetiep.setText(arrayList.get(position + 1).getTen());
+        }
+
         khoiTaoMedia(baiNghe);
 
         img_play_pause.setOnClickListener(new View.OnClickListener() {
@@ -92,9 +100,14 @@ public class BaiNgheActivity extends AppCompatActivity {
                 khoiTaoMedia(baiNghe);
                 setTenBaiNghe(baiNghe);
                 mediaPlayer.start();
-                img_play_pause.setImageResource(R.drawable.pause);
+                img_play_pause.setImageResource(R.drawable.play);
                 SetTimeTotal();
                 UpdateTimeSong();
+                if (position == arrayList.size()-1){
+                    tv_bainghetiep.setText(arrayList.get(0).getTen());
+                }else {
+                    tv_bainghetiep.setText(arrayList.get(position + 1).getTen());
+                }
             }
         });
 
@@ -112,9 +125,14 @@ public class BaiNgheActivity extends AppCompatActivity {
                 khoiTaoMedia(baiNghe);
                 setTenBaiNghe(baiNghe);
                 mediaPlayer.start();
-                img_play_pause.setImageResource(R.drawable.pause);
+                img_play_pause.setImageResource(R.drawable.play);
                 SetTimeTotal();
                 UpdateTimeSong();
+                if (position == arrayList.size()-1){
+                    tv_bainghetiep.setText(arrayList.get(0).getTen());
+                }else {
+                    tv_bainghetiep.setText(arrayList.get(position + 1).getTen());
+                }
             }
         });
 
@@ -135,13 +153,16 @@ public class BaiNgheActivity extends AppCompatActivity {
             }
         });
 
-//        textView = findViewById(R.id.tv_script);
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(BaiNgheActivity.this,BaiNgheScriptActivity.class));
-//            }
-//        });
+        tv_script.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String m = baiNghe.getTen();
+                Intent intent = new Intent(BaiNgheActivity.this,BaiNgheScriptActivity.class);
+                intent.putExtra("scriptBaiNghe",m);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void UpdateTimeSong(){
