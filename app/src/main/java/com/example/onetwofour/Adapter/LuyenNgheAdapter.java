@@ -21,7 +21,11 @@ import com.example.onetwofour.Activities.BaiNgheActivity;
 import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
 import com.example.onetwofour.Model.BaiNghe;
 import com.example.onetwofour.R;
+import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static com.example.onetwofour.R.drawable.academy;
@@ -44,8 +48,7 @@ public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.View
     @Override
     public void onBindViewHolder(@NonNull LuyenNgheAdapter.ViewHolder holder, int position) {
 
-        byte[] hinh = arrayList.get(position).getHinh();
-        Bitmap bm = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
+        String bm = arrayList.get(position).getHinh();
 
         String ten = arrayList.get(position).getTen();
 
@@ -70,8 +73,11 @@ public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.View
             tv = itemView.findViewById(R.id.tv_topic_luyennghe);
         }
 
-        public void setData(String ten, Bitmap bm, int position) {
-            img.setImageBitmap(bm);
+        public void setData(String ten, String bm, int position) {
+           // img.setImageBitmap(bm);
+            Picasso.get().load(bm).placeholder(R.drawable.mp3player).into(img);
+
+
             tv.setText(ten);
             img_audio.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,6 +1,8 @@
 package com.example.onetwofour.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,11 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.example.onetwofour.Adapter.TopicAdapter;
-import com.example.onetwofour.Adapter.TopicBaiDocAdapter;
+import com.example.onetwofour.Adapter.LuyenDocAdapter;
 import com.example.onetwofour.Database.DataBase;
 import com.example.onetwofour.Model.BaiDoc;
-import com.example.onetwofour.Model.TopicNguPhap;
 import com.example.onetwofour.R;
 
 import java.util.ArrayList;
@@ -25,8 +25,8 @@ public class LuyenDocActivity extends AppCompatActivity {
     SQLiteDatabase database;
 
     ArrayList<BaiDoc> arrayList;
-    TopicBaiDocAdapter adapter, adapterSearch;
-    ListView lv;
+    LuyenDocAdapter adapter, adapterSearch;
+    RecyclerView rv;
     Button button;
     EditText edt_baidoc;
     ArrayList<BaiDoc> arrayListSearch;
@@ -52,10 +52,10 @@ public class LuyenDocActivity extends AppCompatActivity {
                 }
 
                 if (b.equalsIgnoreCase("")) {
-                    lv.setAdapter(adapter);
+                    rv.setAdapter(adapter);
                 } else {
-                    adapterSearch = new TopicBaiDocAdapter(LuyenDocActivity.this, R.layout.item_baidoc, arrayListSearch);
-                    lv.setAdapter(adapterSearch);
+                    adapterSearch = new LuyenDocAdapter( arrayListSearch);
+                    rv.setAdapter(adapterSearch);
                 }
 
             }
@@ -83,8 +83,25 @@ public class LuyenDocActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
         arrayListSearch = new ArrayList<>();
 
-        lv = findViewById(R.id.lv_baidoc);
-        adapter = new TopicBaiDocAdapter(LuyenDocActivity.this,R.layout.item_baidoc,arrayList);
-        lv.setAdapter(adapter);
+        rv = findViewById(R.id.rv_baidoc);
+        rv.setHasFixedSize(true);
+        adapter = new LuyenDocAdapter(arrayList);
+
+        // set recycleview click item
+        adapter.setOnItemClickListener(new LuyenDocAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(LuyenDocActivity.this, BaiDocActivity.class);
+                intent.putExtra("topicbaidoc", arrayList.get(position).getTenbaidoc());
+                startActivity(intent);
+            }
+        });
+
+        // setup cho recycleview
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        rv.setLayoutManager(linearLayoutManager);
+
+        rv.setAdapter(adapter);
     }
 }

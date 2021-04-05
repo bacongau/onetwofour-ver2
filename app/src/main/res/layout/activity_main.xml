@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20dp"
-            android:text="Ngu phap" />
+            android:text="Ngữ pháp" />
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20dp"
-            android:text="Luyen nghe" />
+            android:text="Luyện nghe" />
     </LinearLayout>
 
 
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20dp"
-            android:text="tro choi" />
+            android:text="Trò chơi" />
     </LinearLayout>
 
     <LinearLayout
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="20dp"
-            android:text="Luyen doc" />
+            android:text="Luyện đọc" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

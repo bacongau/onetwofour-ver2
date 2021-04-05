@@ -1,3 +1,4 @@
+
 package com.example.onetwofour.Adapter;
 
 import androidx.annotation.NonNull;
@@ -41,11 +42,11 @@ public class LuyenDocViewPagerAdapter extends FragmentStatePagerAdapter {
         String title = "";
         switch (position){
             case 0:{
-                title = "Tieng Anh";
+                title = "Tiếng Anh";
                 break;
             }
             case 1:{
-                title = "Tieng Viet";
+                title = "Tiếng Việt";
                 break;
             }
         }

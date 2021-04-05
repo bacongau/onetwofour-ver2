@@ -41,11 +41,11 @@ public class NguPhapViewPagerAdapter extends FragmentStatePagerAdapter {
         String title = "";
         switch (position){
             case 0:{
-                title = "Tu vung";
+                title = "Từ vựng";
                 break;
             }
             case 1:{
-                title = "Mau cau";
+                title = "Mẫu câu";
                 break;
             }
         }

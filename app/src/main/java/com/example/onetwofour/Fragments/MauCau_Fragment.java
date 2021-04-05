@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
@@ -20,6 +22,7 @@ import com.example.onetwofour.Model.TuVung;
 import com.example.onetwofour.R;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class MauCau_Fragment extends Fragment {
@@ -29,6 +32,7 @@ public class MauCau_Fragment extends Fragment {
     ListView listView;
     MauCauAdapter adapter;
     String a;
+    TextToSpeech textToSpeech;
 
     public MauCau_Fragment() {
         // Required empty public constructor
@@ -50,6 +54,33 @@ public class MauCau_Fragment extends Fragment {
         a = activity.getMyData();
 
         docdulieu();
+
+//        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+//            @Override
+//            public void onInit(int status) {
+//                if (status == TextToSpeech.SUCCESS) {
+//                    int lang = textToSpeech.setLanguage(Locale.ENGLISH);
+//                }
+//            }
+//        });
+//        String s = arrayList.get(position).getWord();
+//                int speech = textToSpeech.speak(s,TextToSpeech.QUEUE_FLUSH,null);
+        // speech sentence
+        textToSpeech = new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS){
+                    int lang = textToSpeech.setLanguage(Locale.ENGLISH);
+                }
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String s = mauCauArrayList.get(position).getEngSub();
+                int speech = textToSpeech.speak(s,TextToSpeech.QUEUE_FLUSH,null);
+            }
+        });
 
         return view;
     }

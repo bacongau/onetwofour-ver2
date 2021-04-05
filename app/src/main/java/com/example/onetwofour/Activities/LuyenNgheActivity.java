@@ -1,5 +1,7 @@
 package com.example.onetwofour.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,24 +13,33 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.onetwofour.Adapter.LuyenNgheAdapter;
+import com.example.onetwofour.Adapter.NguPhapAdapter;
 import com.example.onetwofour.Database.DataBase;
 import com.example.onetwofour.Model.BaiNghe;
 import com.example.onetwofour.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class LuyenNgheActivity extends AppCompatActivity {
-    String DATABASE_NAME = "LuyenNghe db.db";
-    SQLiteDatabase database;
+    DatabaseReference mDatabase;
 
-    ArrayList<BaiNghe> arrayList;
-    LuyenNgheAdapter adapter;
+    ArrayList<BaiNghe> arrayList,arrayListSearch;
+    LuyenNgheAdapter adapter,adapterSearch;
     RecyclerView rv;
 
     Button button;
+    EditText edt_find_topic;
+    boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +53,31 @@ public class LuyenNgheActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LuyenNgheActivity.this, "tim kiem", Toast.LENGTH_SHORT).show();
+                String b = edt_find_topic.getText().toString();
+                arrayListSearch.clear();
+                for (int i = 0; i < arrayList.size(); i++) {
+                    if (b.equalsIgnoreCase(arrayList.get(i).getTen())) {
+                        arrayListSearch.add(arrayList.get(i));
+                    }
+                }
+
+                if (b.equalsIgnoreCase("")) {
+                    rv.setAdapter(adapter);
+                } else {
+                    adapterSearch = new LuyenNgheAdapter( arrayListSearch);
+                    rv.setAdapter(adapterSearch);
+                }
             }
         });
 
     }
 
     private void anhxa() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        edt_find_topic = findViewById(R.id.edt_find_topic);
+        arrayListSearch = new ArrayList<>();
+
         rv = findViewById(R.id.rv_bainghe);
         rv.setHasFixedSize(true);
         arrayList = new ArrayList<>();
@@ -63,18 +92,46 @@ public class LuyenNgheActivity extends AppCompatActivity {
     }
 
     private void docdulieu() {
-        database = DataBase.initDatabase(LuyenNgheActivity.this, DATABASE_NAME);
-        Cursor cursor = database.rawQuery("SELECT * FROM Luyennghe", null);
-        arrayList.clear();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String tentopic = cursor.getString(0);
-            byte[] hinh = cursor.getBlob(1);
-            String link = cursor.getString(2);
-            String script = cursor.getString(3);
-            arrayList.add(new BaiNghe(tentopic, hinh,link,script));
-        }
-        adapter.notifyDataSetChanged();
+        mDatabase.child("bai nghe 1").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                BaiNghe baiNghe = snapshot.getValue(BaiNghe.class);
+                arrayList.add(baiNghe);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Toast.makeText(LuyenNgheActivity.this, "Da tai xong", Toast.LENGTH_SHORT).show();
+                loading = true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

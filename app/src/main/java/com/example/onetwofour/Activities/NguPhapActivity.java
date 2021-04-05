@@ -1,21 +1,17 @@
 package com.example.onetwofour.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
-import com.example.onetwofour.Adapter.TopicAdapter;
+import com.example.onetwofour.Adapter.NguPhapAdapter;
 import com.example.onetwofour.Database.DataBase;
 import com.example.onetwofour.Model.TopicNguPhap;
 import com.example.onetwofour.R;
@@ -27,8 +23,8 @@ public class NguPhapActivity extends AppCompatActivity {
     SQLiteDatabase database;
 
     ArrayList<TopicNguPhap> arrayList;
-    TopicAdapter adapter, adapterSearch;
-    ListView lv;
+    NguPhapAdapter adapter, adapterSearch;
+    RecyclerView rv;
     Button btn_search;
     EditText edt_chude;
     ArrayList<TopicNguPhap> arrayListSearch;
@@ -55,12 +51,11 @@ public class NguPhapActivity extends AppCompatActivity {
                 }
 
                 if (b.equalsIgnoreCase("")) {
-                    lv.setAdapter(adapter);
+                    rv.setAdapter(adapter);
                 } else {
-                    adapterSearch = new TopicAdapter(NguPhapActivity.this, R.layout.item_topic_nguphap, arrayListSearch);
-                    lv.setAdapter(adapterSearch);
+                    adapterSearch = new NguPhapAdapter( arrayListSearch);
+                    rv.setAdapter(adapterSearch);
                 }
-
 
             }
         });
@@ -85,9 +80,14 @@ public class NguPhapActivity extends AppCompatActivity {
         edt_chude = (EditText) NguPhapActivity.this.findViewById(R.id.edt_nguphap_find_topic);
         arrayListSearch = new ArrayList<>();
 
-        lv = findViewById(R.id.lv_topic_nguphap);
+        rv = findViewById(R.id.rv_topic_nguphap);
+        rv.setHasFixedSize(true);
         arrayList = new ArrayList<>();
-        adapter = new TopicAdapter(NguPhapActivity.this, R.layout.item_topic_nguphap, arrayList);
-        lv.setAdapter(adapter);
+        adapter = new NguPhapAdapter(arrayList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NguPhapActivity.this);
+        linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        rv.setLayoutManager(linearLayoutManager); // set kieu sap xep cac item trong recyclerview
+
+        rv.setAdapter(adapter);
     }
 }

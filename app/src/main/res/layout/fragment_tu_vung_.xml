@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.TuVung_Fragment">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tuvung"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/lv_tuvung"/>
-
+        android:layout_height="match_parent" />
 </FrameLayout>
