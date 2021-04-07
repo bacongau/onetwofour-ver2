@@ -3,6 +3,7 @@ package com.example.onetwofour.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -145,5 +146,7 @@ public class NguPhapActivity extends AppCompatActivity {
         rv.setLayoutManager(linearLayoutManager); // set kieu sap xep cac item trong recyclerview
 
         rv.setAdapter(adapter);
+        rv.addItemDecoration(new DividerItemDecoration(NguPhapActivity.this,
+                DividerItemDecoration.VERTICAL));
     }
 }

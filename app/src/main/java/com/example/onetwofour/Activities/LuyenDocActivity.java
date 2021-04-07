@@ -1,6 +1,7 @@
 package com.example.onetwofour.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -118,5 +119,8 @@ public class LuyenDocActivity extends AppCompatActivity {
         rv.setLayoutManager(linearLayoutManager);
 
         rv.setAdapter(adapter);
+
+        rv.addItemDecoration(new DividerItemDecoration(LuyenDocActivity.this,
+                DividerItemDecoration.VERTICAL));
     }
 }

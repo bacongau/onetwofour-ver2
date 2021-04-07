@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.onetwofour.Activities.NguPhapActivity;
 import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
 import com.example.onetwofour.Adapter.MauCauAdapter;
 import com.example.onetwofour.Adapter.TuVungAdapter;
@@ -94,6 +96,8 @@ public class MauCau_Fragment extends Fragment {
         rv.setLayoutManager(linearLayoutManager);
 
         rv.setAdapter(adapter);
+        rv.addItemDecoration(new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL));
 
         docdulieu();
 
@@ -133,7 +137,6 @@ public class MauCau_Fragment extends Fragment {
         mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(getActivity(), "Đã tải xong dữ liệu", Toast.LENGTH_SHORT).show();
                 loading = true;
             }
 
