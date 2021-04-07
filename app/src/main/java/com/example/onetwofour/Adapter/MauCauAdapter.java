@@ -1,70 +1,88 @@
 package com.example.onetwofour.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.onetwofour.Model.MauCau;
-import com.example.onetwofour.Model.TopicNguPhap;
+import com.example.onetwofour.Model.TuVung;
 import com.example.onetwofour.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class MauCauAdapter extends BaseAdapter {
-    Context context;
-    int layout;
-    ArrayList<MauCau> arrayList;
+public class MauCauAdapter extends RecyclerView.Adapter<MauCauAdapter.ViewHolder> {
+    private ArrayList<MauCau> arrayList;
+    private OnItemClickListener mListener;
 
-    public MauCauAdapter(Context context, int layout, ArrayList<MauCau> arrayList) {
-        this.context = context;
-        this.layout = layout;
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
+
+    public MauCauAdapter(ArrayList<MauCau> arrayList) {
         this.arrayList = arrayList;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
+    public MauCauAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_maucau, parent, false);
+
+        return new ViewHolder(view,mListener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String engsub = arrayList.get(position).getEng();
+        String vietsub = arrayList.get(position).getViet();
+
+        holder.setData(engsub, vietsub, position);
+    }
+
+    @Override
+    public int getItemCount() {
         return arrayList.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    public class ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_eng,tv_viet;
-    }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
-        if (convertView == null){
-            viewHolder = new ViewHolder();
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(layout,null);
+        public ViewHolder(@NonNull View itemView, MauCauAdapter.OnItemClickListener listener) {
+            super(itemView);
 
-            viewHolder.tv_eng = convertView.findViewById(R.id.tv_maucau_eng);
-            viewHolder.tv_viet = convertView.findViewById(R.id.tv_maucau_viet);
-            convertView.setTag(viewHolder);
-        }else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            tv_eng = itemView.findViewById(R.id.tv_maucau_eng);
+            tv_viet = itemView.findViewById(R.id.tv_maucau_viet);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
 
-        viewHolder.tv_viet.setText(arrayList.get(position).getVietSub());
-        viewHolder.tv_eng.setText(arrayList.get(position).getEngSub());
-
-        return convertView;
+        public void setData(String engsub, String vietsub, int position) {
+            tv_eng.setText(engsub);
+            tv_viet.setText(vietsub);
+        }
     }
+
+
+
 }

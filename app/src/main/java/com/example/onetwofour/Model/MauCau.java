@@ -1,38 +1,28 @@
 package com.example.onetwofour.Model;
 
 public class MauCau {
-    private String topic;
-    private String engSub;
-    private String vietSub;
+    private String eng;
+    private String viet;
 
-    public String getTopic() {
-        return topic;
+    public String getEng() {
+        return eng;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
+    public void setEng(String eng) {
+        this.eng = eng;
     }
 
-    public String getEngSub() {
-        return engSub;
+    public String getViet() {
+        return viet;
     }
 
-    public void setEngSub(String engSub) {
-        this.engSub = engSub;
+    public void setViet(String viet) {
+        this.viet = viet;
     }
 
-    public String getVietSub() {
-        return vietSub;
-    }
-
-    public void setVietSub(String vietSub) {
-        this.vietSub = vietSub;
-    }
-
-    public MauCau(String topic, String engSub, String vietSub) {
-        this.topic = topic;
-        this.engSub = engSub;
-        this.vietSub = vietSub;
+    public MauCau(String eng, String viet) {
+        this.eng = eng;
+        this.viet = viet;
     }
 
     public MauCau() {

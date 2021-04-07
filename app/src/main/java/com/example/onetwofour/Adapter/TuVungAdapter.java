@@ -1,16 +1,10 @@
 package com.example.onetwofour.Adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,13 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
-import com.example.onetwofour.Model.TopicNguPhap;
 import com.example.onetwofour.Model.TuVung;
 import com.example.onetwofour.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder> {
     private ArrayList<TuVung> arrayList;
@@ -54,10 +46,9 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String word = arrayList.get(position).getWord();
         String sub = arrayList.get(position).getDesc();
-        byte[] hinh = arrayList.get(position).getImage();
-        Bitmap bm = BitmapFactory.decodeByteArray(hinh, 0, hinh.length);
+        String hinh = arrayList.get(position).getLinkhinh();
 
-        holder.setData(word, bm, sub, position);
+        holder.setData(word, hinh, sub, position);
     }
 
     @Override
@@ -89,8 +80,8 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
             });
         }
 
-        public void setData(String word, Bitmap bm, String sub, int position) {
-            img.setImageBitmap(bm);
+        public void setData(String word, String bm, String sub, int position) {
+            Picasso.get().load(bm).placeholder(R.drawable.cards).into(img);
             tv_word.setText(word);
             tv_desc.setText(sub);
         }

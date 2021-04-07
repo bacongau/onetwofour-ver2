@@ -1,33 +1,47 @@
 package com.example.onetwofour.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.onetwofour.Adapter.NguPhapAdapter;
 import com.example.onetwofour.Database.DataBase;
-import com.example.onetwofour.Model.TopicNguPhap;
+import com.example.onetwofour.Model.NguPhap;
 import com.example.onetwofour.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class NguPhapActivity extends AppCompatActivity {
-    String DATABASE_NAME = "NguPhap db.db";
-    SQLiteDatabase database;
+    DatabaseReference mDatabase;
 
-    ArrayList<TopicNguPhap> arrayList;
+    ArrayList<NguPhap> arrayList;
     NguPhapAdapter adapter, adapterSearch;
     RecyclerView rv;
     Button btn_search;
     EditText edt_chude;
-    ArrayList<TopicNguPhap> arrayListSearch;
+    ArrayList<NguPhap> arrayListSearch;
+
+    boolean loading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,26 +70,68 @@ public class NguPhapActivity extends AppCompatActivity {
                     adapterSearch = new NguPhapAdapter( arrayListSearch);
                     rv.setAdapter(adapterSearch);
                 }
-
+            }
+        });
+        edt_chude.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // hide virtual keyboard
+                    InputMethodManager imm = (InputMethodManager) NguPhapActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt_chude.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
             }
         });
     }
 
 
     private void docdulieu() {
-        database = DataBase.initDatabase(NguPhapActivity.this, DATABASE_NAME);
-        Cursor cursor = database.rawQuery("SELECT * FROM Nguphap", null);
-        arrayList.clear();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String tentopic = cursor.getString(0);
-            byte[] hinh = cursor.getBlob(1);
-            arrayList.add(new TopicNguPhap(hinh, tentopic));
-        }
-        adapter.notifyDataSetChanged();
+        mDatabase.child("topic").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                NguPhap nguPhap = snapshot.getValue(NguPhap.class);
+                arrayList.add(nguPhap);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Toast.makeText(NguPhapActivity.this, "Đã tải xong dữ liệu", Toast.LENGTH_SHORT).show();
+                loading = true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void anhxa() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         btn_search = findViewById(R.id.btn_nguphap_find_topic);
         edt_chude = (EditText) NguPhapActivity.this.findViewById(R.id.edt_nguphap_find_topic);
         arrayListSearch = new ArrayList<>();

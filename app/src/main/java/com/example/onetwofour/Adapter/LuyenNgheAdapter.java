@@ -74,7 +74,6 @@ public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.View
         }
 
         public void setData(String ten, String bm, int position) {
-           // img.setImageBitmap(bm);
             Picasso.get().load(bm).placeholder(R.drawable.mp3player).into(img);
 
 

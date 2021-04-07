@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Onetwofour">
-        <activity android:name=".Activities.BaiDocActivity"></activity>
+        <activity android:name=".Activities.FeedbackActivity"></activity>
+        <activity android:name=".Activities.BaiDocActivity" />
         <activity android:name=".Activities.BaiNgheScriptActivity" />
         <activity android:name=".Activities.BaiNgheActivity" />
         <activity android:name=".Activities.TuVung_MauCau_Activity" />

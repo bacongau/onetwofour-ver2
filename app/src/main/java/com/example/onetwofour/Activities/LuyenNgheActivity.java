@@ -6,12 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -69,7 +72,18 @@ public class LuyenNgheActivity extends AppCompatActivity {
                 }
             }
         });
-
+        edt_find_topic.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // hide virtual keyboard
+                    InputMethodManager imm = (InputMethodManager) LuyenNgheActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(edt_find_topic.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void anhxa() {
@@ -123,7 +137,7 @@ public class LuyenNgheActivity extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(LuyenNgheActivity.this, "Da tai xong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LuyenNgheActivity.this, "Đã tải xong dữ liệu", Toast.LENGTH_SHORT).show();
                 loading = true;
             }
 

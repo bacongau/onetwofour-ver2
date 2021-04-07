@@ -272,7 +272,7 @@ public class BaiNgheActivity extends AppCompatActivity {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(BaiNgheActivity.this, "Da tai xong du lieu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaiNgheActivity.this, "Đã tải xong dữ liệu", Toast.LENGTH_SHORT).show();
                 loading = true;
                 khoitaocacGiaTri();
                 progressBar.setVisibility(View.GONE);

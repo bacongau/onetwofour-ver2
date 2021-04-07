@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "660200891532",
+    "firebase_url": "https://onetwofour-a0f7d-default-rtdb.firebaseio.com",
+    "project_id": "onetwofour-a0f7d",
+    "storage_bucket": "onetwofour-a0f7d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660200891532:android:080270073c18038ddc87a9",
+        "android_client_info": {
+          "package_name": "com.example.onetwofour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "660200891532-fmivk5vnnps0k3r1lppnmhhg6u54nd7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSfgq_nlxeP1sD4BdY-1C4qCargrXft9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "660200891532-fmivk5vnnps0k3r1lppnmhhg6u54nd7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

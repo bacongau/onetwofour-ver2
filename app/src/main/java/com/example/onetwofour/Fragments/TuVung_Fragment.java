@@ -5,35 +5,46 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.onetwofour.Activities.NguPhapActivity;
 import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
 import com.example.onetwofour.Adapter.TuVungAdapter;
 import com.example.onetwofour.Database.DataBase;
+import com.example.onetwofour.Model.NguPhap;
 import com.example.onetwofour.Model.TuVung;
 import com.example.onetwofour.R;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 
 public class TuVung_Fragment extends Fragment {
-    String DATABASE_NAME = "NguPhap db.db";
-    SQLiteDatabase database;
+    DatabaseReference mDatabase,mDatabase1,mDatabase2;
+
     ArrayList<TuVung> tuVungArrayList;
     RecyclerView rv;
     TuVungAdapter adapter;
     String a;
     TextToSpeech textToSpeech;
+    boolean loading = false;
 
     public TuVung_Fragment() {
         // Required empty public constructor
@@ -45,6 +56,14 @@ public class TuVung_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tu_vung_, container, false);
+
+        // get topic
+        TuVung_MauCau_Activity activity = (TuVung_MauCau_Activity) getActivity();
+        a = activity.getMyData();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("ngu phap");
+        mDatabase1 = mDatabase.child(a);
+        mDatabase2 = mDatabase1.child("tu vung");
 
         rv = view.findViewById(R.id.rv_tuvung);
         rv.setHasFixedSize(true);
@@ -75,28 +94,52 @@ public class TuVung_Fragment extends Fragment {
 
         rv.setAdapter(adapter);
 
-        // get topic
-        TuVung_MauCau_Activity activity = (TuVung_MauCau_Activity) getActivity();
-        a = activity.getMyData();
-
         docdulieu();
 
         return view;
     }
 
     private void docdulieu() {
-        database = DataBase.initDatabase(getActivity(), DATABASE_NAME);
-        Cursor cursor = database.rawQuery("SELECT * FROM Tuvung WHERE topic = '" + a + "'", null);
-        tuVungArrayList.clear();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String tentopic = cursor.getString(0);
-            byte[] hinh = cursor.getBlob(1);
-            String desc = cursor.getString(2);
-            String linkaudio = cursor.getString(3);
-            tuVungArrayList.add(new TuVung(tentopic, hinh, desc, linkaudio));
-        }
-        adapter.notifyDataSetChanged();
+        mDatabase2.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                TuVung tuVung = snapshot.getValue(TuVung.class);
+                tuVungArrayList.add(tuVung);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        mDatabase2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Toast.makeText(getActivity(), "Đã tải xong dữ liệu", Toast.LENGTH_SHORT).show();
+                loading = true;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
