@@ -27,8 +27,8 @@
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:text="School"
-        android:textSize="20dp"
         android:textStyle="bold"
+        android:textSize="20dp"
         android:textColor="#514F4F"
         app:layout_constraintEnd_toStartOf="@+id/btn_topic_nguphap"
         app:layout_constraintStart_toEndOf="@+id/img_topic_nguphap"
@@ -41,6 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="12dp"
         android:text="Chủ đề"
+        android:textColor="#504F4F"
         app:layout_constraintBottom_toBottomOf="@+id/img_topic_nguphap"
         app:layout_constraintStart_toEndOf="@+id/img_topic_nguphap" />
 
@@ -51,6 +52,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
         android:text="Xem"
+        android:textColor="#fff"
+        android:background="@drawable/custom_button_allapp"
         app:layout_constraintBottom_toBottomOf="@+id/img_topic_nguphap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_topic_nguphap"

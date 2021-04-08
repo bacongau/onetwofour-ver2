@@ -26,6 +26,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
+        android:textSize="20dp"
+        android:textColor="#514F4F"
         app:layout_constraintBottom_toBottomOf="@+id/img_topic_luyennghe"
         app:layout_constraintEnd_toStartOf="@+id/img_luyennghe"
         app:layout_constraintStart_toEndOf="@+id/img_topic_luyennghe"

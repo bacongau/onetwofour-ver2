@@ -8,7 +8,7 @@
 
     <ImageView
         android:id="@+id/img_tuvung"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:textColor="#504F4F"
         android:text="Academy /əˈkæd.ə.mi/ Học viện"
         app:layout_constraintEnd_toEndOf="@+id/img_tuvung"
         app:layout_constraintStart_toStartOf="@+id/img_tuvung"
@@ -32,21 +33,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="TextView"
+        android:textColor="#514F4F"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/tv_word_tuvung"
         app:layout_constraintStart_toStartOf="@+id/tv_word_tuvung"
         app:layout_constraintTop_toBottomOf="@+id/tv_word_tuvung" />
-
-    <ImageView
-        android:id="@+id/img_sound_tuvung"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tv_desc_tuvung"
-        app:layout_constraintStart_toStartOf="@+id/tv_desc_tuvung"
-        app:layout_constraintTop_toBottomOf="@+id/tv_desc_tuvung"
-        app:srcCompat="@drawable/sound" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

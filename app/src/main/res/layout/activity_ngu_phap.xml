@@ -27,6 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="Tìm"
+        android:textColor="#fff"
+        android:background="@drawable/custom_button_allapp"
         app:layout_constraintBottom_toBottomOf="@+id/edt_nguphap_find_topic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/edt_nguphap_find_topic" />
