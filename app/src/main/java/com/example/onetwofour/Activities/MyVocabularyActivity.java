@@ -63,6 +63,9 @@ public class MyVocabularyActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 String a = vocabArrayList.get(position).getKeyword();
                                 db.delete("MyVocab","keyword=?",new String[]{a});
+
+                                vocabArrayList.remove(vocabArrayList.get(position));
+                                adapter.notifyDataSetChanged();
                                 dialog.cancel();
                             }
                         });
@@ -78,7 +81,6 @@ public class MyVocabularyActivity extends AppCompatActivity {
                 AlertDialog alert11 = builder1.create();
                 alert11.setCanceledOnTouchOutside(false);
                 alert11.show();
-                adapter.notifyDataSetChanged();
             }
         });
     }
