@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Onetwofour">
-        <activity android:name=".Activities.PlayQuizActivity"></activity>
+        <activity android:name=".Activities.MyVocabularyActivity"></activity>
+        <activity android:name=".Activities.PlayQuizActivity" />
         <activity android:name=".Activities.GameQuizActivity" />
         <activity android:name=".Activities.FeedbackActivity" />
         <activity android:name=".Activities.BaiDocActivity" />
@@ -22,9 +23,7 @@
         <activity android:name=".Activities.LuyenDocActivity" />
         <activity android:name=".Activities.LuyenNgheActivity" />
         <activity android:name=".Activities.NguPhapActivity" />
-        <activity android:name=".WelcomeActivity" >
-
-        </activity>
+        <activity android:name=".WelcomeActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

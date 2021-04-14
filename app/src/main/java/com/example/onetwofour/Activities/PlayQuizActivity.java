@@ -101,6 +101,7 @@ public class PlayQuizActivity extends AppCompatActivity {
                             somang--;
                             tv_somang.setText("Số mạng:" + somang + "/" + 3);
                             if (somang == 0) {
+                                choilaitudau();
                                 hienDialog();
                             }
                         }
@@ -118,6 +119,7 @@ public class PlayQuizActivity extends AppCompatActivity {
                             somang--;
                             tv_somang.setText("Số mạng:" + somang + "/" + 3);
                             if (somang == 0) {
+                                choilaitudau();
                                 hienDialog();
                             }
                         }
@@ -135,6 +137,7 @@ public class PlayQuizActivity extends AppCompatActivity {
                             somang--;
                             tv_somang.setText("Số mạng:" + somang + "/" + 3);
                             if (somang == 0) {
+                                choilaitudau();
                                 hienDialog();
                             }
                         }
@@ -152,6 +155,7 @@ public class PlayQuizActivity extends AppCompatActivity {
                             somang--;
                             tv_somang.setText("Số mạng:" + somang + "/" + 3);
                             if (somang == 0) {
+                                choilaitudau();
                                 hienDialog();
                             }
                         }
@@ -176,7 +180,7 @@ public class PlayQuizActivity extends AppCompatActivity {
 
     private void hienDialog() {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(PlayQuizActivity.this);
-        builder1.setTitle("Bạn đã hết số lần chơi");
+        builder1.setTitle("Bạn đã hết số lần chơi :(");
         builder1.setMessage("Bạn có muốn chơi lại không?");
         builder1.setCancelable(true);
 
@@ -199,6 +203,7 @@ public class PlayQuizActivity extends AppCompatActivity {
                 });
 
         AlertDialog alert11 = builder1.create();
+        alert11.setCanceledOnTouchOutside(false);
         alert11.show();
     }
 

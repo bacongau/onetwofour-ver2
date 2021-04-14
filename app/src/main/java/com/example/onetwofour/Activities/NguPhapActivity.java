@@ -2,17 +2,24 @@ package com.example.onetwofour.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -21,6 +28,8 @@ import android.widget.Toast;
 
 import com.example.onetwofour.Adapter.NguPhapAdapter;
 import com.example.onetwofour.Database.DataBase;
+import com.example.onetwofour.Database.DbHelper;
+import com.example.onetwofour.Model.MyVocab;
 import com.example.onetwofour.Model.NguPhap;
 import com.example.onetwofour.R;
 import com.google.firebase.database.ChildEventListener;
@@ -31,16 +40,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NguPhapActivity extends AppCompatActivity {
     DatabaseReference mDatabase;
+    SQLiteDatabase db;
 
     ArrayList<NguPhap> arrayList;
     NguPhapAdapter adapter, adapterSearch;
     RecyclerView rv;
+    Toolbar myToolbar;
     Button btn_search;
     EditText edt_chude;
     ArrayList<NguPhap> arrayListSearch;
+    ArrayList<MyVocab> vocabArrayList;
 
     boolean loading = false;
 
@@ -51,8 +64,7 @@ public class NguPhapActivity extends AppCompatActivity {
 
         anhxa();
         docdulieu();
-
-
+        setUpToolbar();
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +80,7 @@ public class NguPhapActivity extends AppCompatActivity {
                 if (b.equalsIgnoreCase("")) {
                     rv.setAdapter(adapter);
                 } else {
-                    adapterSearch = new NguPhapAdapter( arrayListSearch);
+                    adapterSearch = new NguPhapAdapter(arrayListSearch);
                     rv.setAdapter(adapterSearch);
                 }
             }
@@ -148,5 +160,105 @@ public class NguPhapActivity extends AppCompatActivity {
         rv.setAdapter(adapter);
         rv.addItemDecoration(new DividerItemDecoration(NguPhapActivity.this,
                 DividerItemDecoration.VERTICAL));
+
+        vocabArrayList = new ArrayList<>();
+        DbHelper dbHelper = new DbHelper(NguPhapActivity.this);
+        db = dbHelper.getWritableDatabase();
+    }
+
+    private void setUpToolbar() {
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_action, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_them_tu_vung: {
+                hienDialogThemTuVung();
+                break;
+            }
+            case R.id.action_xem_tu_vung: {
+                startActivity(new Intent(NguPhapActivity.this,MyVocabularyActivity.class));
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void hienDialogThemTuVung() {
+        Dialog dialog = new Dialog(NguPhapActivity.this);
+        dialog.setContentView(R.layout.dialog_them_tu_vung);
+
+        EditText edt_word = dialog.findViewById(R.id.edt_keyword);
+        EditText edt_mota = dialog.findViewById(R.id.edt_mota);
+        Button btn_ok = dialog.findViewById(R.id.btn_dialog_them_tuvung);
+
+        btn_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String a = edt_word.getText().toString();
+                String b = edt_mota.getText().toString();
+
+                String sql = "SELECT * FROM MyVocab";
+                vocabArrayList = getData(sql);
+
+                if (validateEditText(a, b) == false) {
+                    edt_word.setError("Không được để trống");
+                } else if (checkTrung(vocabArrayList, a) == false) {
+                    edt_word.setError("Từ đã tồn tại");
+                } else {
+
+                    ContentValues values = new ContentValues();
+                    values.put("keyword", a);
+                    values.put("mota", b);
+                    MyVocab myVocab = new MyVocab(a, b);
+                    db.insert("MyVocab", null, values);
+                    Toast.makeText(NguPhapActivity.this, "Thêm thành công", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    private boolean validateEditText(String a, String b) {
+        if (a.isEmpty() || a.trim().length() == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean checkTrung(ArrayList<MyVocab> vocabArrayList, String a){
+        for (int i = 0 ; i< vocabArrayList.size();i++){
+            if (a.equals(vocabArrayList.get(i).getKeyword())){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private ArrayList<MyVocab> getData(String sql, String... selectionArgs) {
+        ArrayList<MyVocab> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        while (cursor.moveToNext()) {
+            MyVocab obj = new MyVocab();
+            obj.setKeyword(String.valueOf(cursor.getString(cursor.getColumnIndex("keyword"))));
+            obj.setMota(String.valueOf(cursor.getString(cursor.getColumnIndex("mota"))));
+            list.add(obj);
+        }
+        return list;
     }
 }
+
+

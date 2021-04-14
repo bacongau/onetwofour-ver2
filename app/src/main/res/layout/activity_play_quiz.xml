@@ -61,7 +61,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:text="Số mạng: 3/3"
-        android:textColor="#bcb98c"
+        android:textColor="#e25175"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
