@@ -1,4 +1,4 @@
-package com.example.onetwofour;
+package com.example.onetwofour.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 
-public class WelcomeActivity extends AppCompatActivity {
+import com.example.onetwofour.R;
+
+public class LoadingTrochoi2Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_loading_trochoi2);
 
         CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
             @Override
@@ -21,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                startActivity(new Intent(LoadingTrochoi2Activity.this,ChonMucDoActivity.class));
             }
         };
         countDownTimer.start();
