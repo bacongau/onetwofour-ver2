@@ -4,50 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.LuyenNgheActivity"
-    android:background="@drawable/bgallapp">
+    tools:context=".Activities.ThemChuDeActivity">
 
     <EditText
-        android:id="@+id/edt_find_topic"
+        android:id="@+id/edt_themchude_timchude"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="text"
-        android:hint="Nhập tên bài"
-        app:layout_constraintEnd_toStartOf="@+id/button_zxczc"
+        android:hint="Nhập chủ đề"
+        app:layout_constraintEnd_toStartOf="@+id/btn_themchude_timchude"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_zxczc"
+        android:id="@+id/btn_themchude_timchude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:text="Tìm"
-        android:textColor="#fff"
+        android:text="Button"
         android:background="@drawable/custom_button_allapp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/edt_themchude_timchude" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_bainghe"
+        android:id="@+id/rv_themchude_chude"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_zxczc"
-        app:layout_constraintVertical_bias="0.0"
-        tools:itemCount="4"
-        tools:listitem="@layout/recycler_view_item" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_themchude_timchude" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_themchude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

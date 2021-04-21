@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class MauCauAdapter extends RecyclerView.Adapter<MauCauAdapter.ViewHolder> {
     private ArrayList<MauCau> arrayList;
     private OnItemClickListener mListener;
+    private OnItemLongClickListener mLongListener;
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -28,6 +29,13 @@ public class MauCauAdapter extends RecyclerView.Adapter<MauCauAdapter.ViewHolder
 
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
+    }
+
+    public interface OnItemLongClickListener {
+        public boolean onItemLongClicked(int position);
+    }
+    public void setOnItemLongClickListener(OnItemLongClickListener mlistener2){
+        mLongListener = mlistener2;
     }
 
     public MauCauAdapter(ArrayList<MauCau> arrayList) {
@@ -39,7 +47,7 @@ public class MauCauAdapter extends RecyclerView.Adapter<MauCauAdapter.ViewHolder
     public MauCauAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_maucau, parent, false);
 
-        return new ViewHolder(view,mListener);
+        return new ViewHolder(view,mListener,mLongListener);
     }
 
     @Override
@@ -58,7 +66,7 @@ public class MauCauAdapter extends RecyclerView.Adapter<MauCauAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_eng,tv_viet;
 
-        public ViewHolder(@NonNull View itemView, MauCauAdapter.OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView, MauCauAdapter.OnItemClickListener listener, OnItemLongClickListener longClickListener) {
             super(itemView);
 
             tv_eng = itemView.findViewById(R.id.tv_maucau_eng);
@@ -73,6 +81,18 @@ public class MauCauAdapter extends RecyclerView.Adapter<MauCauAdapter.ViewHolder
                             listener.onItemClick(position);
                         }
                     }
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (longClickListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            longClickListener.onItemLongClicked(position);
+                        }
+                    }
+                    return false;
                 }
             });
         }

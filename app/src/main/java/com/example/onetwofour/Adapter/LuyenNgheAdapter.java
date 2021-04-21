@@ -32,6 +32,15 @@ import static com.example.onetwofour.R.drawable.academy;
 
 public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.ViewHolder> {
     private ArrayList<BaiNghe> arrayList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
 
     public LuyenNgheAdapter(ArrayList<BaiNghe> arrayList) {
         this.arrayList = arrayList;
@@ -42,11 +51,11 @@ public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.View
     public LuyenNgheAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_topic_luyennghe, parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view,mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LuyenNgheAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         String bm = arrayList.get(position).getHinh();
 
@@ -65,12 +74,24 @@ public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.View
         TextView tv;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
             super(itemView);
 
             img = itemView.findViewById(R.id.img_topic_luyennghe);
             img_audio = itemView.findViewById(R.id.img_luyennghe);
             tv = itemView.findViewById(R.id.tv_topic_luyennghe);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
 
         public void setData(String ten, String bm, int position) {
@@ -81,9 +102,9 @@ public class LuyenNgheAdapter extends RecyclerView.Adapter<LuyenNgheAdapter.View
             img_audio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), BaiNgheActivity.class);
-                    intent.putExtra("tenbainghe",arrayList.get(position).getTen());
-                    v.getContext().startActivity(intent);
+//                    Intent intent = new Intent(v.getContext(), BaiNgheActivity.class);
+//                    intent.putExtra("tenbainghe",arrayList.get(position).getTen());
+//                    v.getContext().startActivity(intent);
                 }
             });
         }

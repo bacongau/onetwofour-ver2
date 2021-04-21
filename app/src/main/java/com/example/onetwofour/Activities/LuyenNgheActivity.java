@@ -68,7 +68,7 @@ public class LuyenNgheActivity extends AppCompatActivity {
                 if (b.equalsIgnoreCase("")) {
                     rv.setAdapter(adapter);
                 } else {
-                    adapterSearch = new LuyenNgheAdapter( arrayListSearch);
+
                     rv.setAdapter(adapterSearch);
                 }
             }
@@ -85,6 +85,24 @@ public class LuyenNgheActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        adapter.setOnItemClickListener(new LuyenNgheAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(LuyenNgheActivity.this,BaiNgheActivity.class);
+                intent.putExtra("tenbainghe",arrayList.get(position).getTen());
+                startActivity(intent);
+            }
+        });
+
+        adapterSearch.setOnItemClickListener(new LuyenNgheAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(LuyenNgheActivity.this,BaiNgheActivity.class);
+                intent.putExtra("tenbainghe",arrayListSearch.get(position).getTen());
+                startActivity(intent);
+            }
+        });
     }
 
     private void anhxa() {
@@ -97,6 +115,8 @@ public class LuyenNgheActivity extends AppCompatActivity {
         rv.setHasFixedSize(true);
         arrayList = new ArrayList<>();
         adapter = new LuyenNgheAdapter(arrayList);
+        adapterSearch = new LuyenNgheAdapter( arrayListSearch);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(LuyenNgheActivity.this);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         rv.setLayoutManager(linearLayoutManager); // set kieu sap xep cac item trong recyclerview

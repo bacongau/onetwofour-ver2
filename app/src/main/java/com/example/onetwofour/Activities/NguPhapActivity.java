@@ -80,7 +80,7 @@ public class NguPhapActivity extends AppCompatActivity {
                 if (b.equalsIgnoreCase("")) {
                     rv.setAdapter(adapter);
                 } else {
-                    adapterSearch = new NguPhapAdapter(arrayListSearch);
+
                     rv.setAdapter(adapterSearch);
                 }
             }
@@ -95,6 +95,22 @@ public class NguPhapActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+        adapter.setOnItemClickListener(new NguPhapAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(NguPhapActivity.this,TuVung_MauCau_Activity.class);
+                intent.putExtra("topic",arrayList.get(position).getTopicName());
+                startActivity(intent);
+            }
+        });
+        adapterSearch.setOnItemClickListener(new NguPhapAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Intent intent = new Intent(NguPhapActivity.this,TuVung_MauCau_Activity.class);
+                intent.putExtra("topic",arrayListSearch.get(position).getTopicName());
+                startActivity(intent);
             }
         });
     }
@@ -148,6 +164,7 @@ public class NguPhapActivity extends AppCompatActivity {
         btn_search = findViewById(R.id.btn_nguphap_find_topic);
         edt_chude = (EditText) NguPhapActivity.this.findViewById(R.id.edt_nguphap_find_topic);
         arrayListSearch = new ArrayList<>();
+        adapterSearch = new NguPhapAdapter(arrayListSearch);
 
         rv = findViewById(R.id.rv_topic_nguphap);
         rv.setHasFixedSize(true);
@@ -164,6 +181,8 @@ public class NguPhapActivity extends AppCompatActivity {
         vocabArrayList = new ArrayList<>();
         DbHelper dbHelper = new DbHelper(NguPhapActivity.this);
         db = dbHelper.getWritableDatabase();
+
+
     }
 
     private void setUpToolbar() {

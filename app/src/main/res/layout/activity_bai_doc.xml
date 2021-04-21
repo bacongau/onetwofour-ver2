@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.BaiDocActivity">
+    tools:context=".Activities.BaiDocActivity"
+    android:background="@drawable/bgallapp">
 
     <ScrollView
         android:id="@+id/sv_engsub"

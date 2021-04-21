@@ -153,7 +153,7 @@ public class HardModeActivity extends AppCompatActivity {
                 alert11.show();
             }
         });
-    }
+    }   
 
     private void laydulieu() {
         database = DataBase.initDatabase(HardModeActivity.this, DATABASE_NAME);

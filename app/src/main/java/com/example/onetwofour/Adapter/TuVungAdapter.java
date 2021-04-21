@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder> {
     private ArrayList<TuVung> arrayList;
     private OnItemClickListener mListener;
+    private OnItemLongClickListener mLongListener;
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -28,6 +29,13 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
 
     public void setOnItemClickListener(OnItemClickListener listener){
         mListener = listener;
+    }
+
+    public interface OnItemLongClickListener {
+        public boolean onItemLongClicked(int position);
+    }
+    public void setOnItemLongClickListener(OnItemLongClickListener mlistener2){
+        mLongListener = mlistener2;
     }
 
     public TuVungAdapter(ArrayList<TuVung> arrayList) {
@@ -39,7 +47,7 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
     public TuVungAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tuvung, parent, false);
 
-        return new ViewHolder(view,mListener);
+        return new ViewHolder(view,mListener,mLongListener);
     }
 
     @Override
@@ -60,7 +68,7 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
         ImageView img;
         TextView tv_desc, tv_word;
 
-        public ViewHolder(@NonNull View itemView, OnItemClickListener listener) {
+        public ViewHolder(@NonNull View itemView, OnItemClickListener listener, OnItemLongClickListener longClickListener) {
             super(itemView);
 
             img = itemView.findViewById(R.id.img_tuvung);
@@ -76,6 +84,18 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
                             listener.onItemClick(position);
                         }
                     }
+                }
+            });
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (longClickListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+                            longClickListener.onItemLongClicked(position);
+                        }
+                    }
+                    return false;
                 }
             });
         }

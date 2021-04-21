@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/bgallapp">
 
 
     <ImageView
@@ -139,25 +140,34 @@
             android:text="Luyện đọc" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_feedback"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/lyt_luyendoc"
-        app:layout_constraintStart_toStartOf="@+id/lyt_trochoi"
-        app:layout_constraintTop_toBottomOf="@+id/lyt_luyendoc"
-        app:srcCompat="@drawable/rating" />
-
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
+        android:id="@+id/lyt_dev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Góp ý"
-        android:textColor="#b2476c"
-        app:layout_constraintEnd_toEndOf="@+id/img_feedback"
-        app:layout_constraintStart_toStartOf="@+id/img_feedback"
-        app:layout_constraintTop_toBottomOf="@+id/img_feedback" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_item"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lyt_luyendoc">
+
+        <ImageView
+            android:id="@+id/img_dev"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/development" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Phát triển nội dung"
+            android:textColor="#b2476c" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

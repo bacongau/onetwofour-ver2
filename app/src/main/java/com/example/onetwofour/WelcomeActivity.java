@@ -13,7 +13,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        CountDownTimer countDownTimer = new CountDownTimer(1000,1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(2000,2000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -21,7 +21,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                startActivity(new Intent(WelcomeActivity.this,MainActivity.class));
+                startActivity(new Intent(WelcomeActivity.this,DangNhapActivity.class));
             }
         };
         countDownTimer.start();
