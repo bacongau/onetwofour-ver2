@@ -53,7 +53,6 @@ public class LuyenNgheActivity extends AppCompatActivity {
         anhxa();
         docdulieu();
 
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

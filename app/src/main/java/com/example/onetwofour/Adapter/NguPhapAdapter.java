@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.onetwofour.Activities.NguPhapActivity;
 import com.example.onetwofour.Activities.TuVung_MauCau_Activity;
 import com.example.onetwofour.Model.NguPhap;
 import com.example.onetwofour.R;
@@ -115,6 +116,14 @@ NguPhapAdapter extends RecyclerView.Adapter<NguPhapAdapter.ViewHolder> {
         public void setData(String ten, String hinh, int position) {
             Picasso.get().load(hinh).placeholder(R.drawable.school).into(img);
             tv.setText(ten);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(),TuVung_MauCau_Activity.class);
+                    intent.putExtra("topic",arrayList.get(position).getTopicName());
+                    v.getContext().startActivity(intent);
+                }
+            });
         }
 
 

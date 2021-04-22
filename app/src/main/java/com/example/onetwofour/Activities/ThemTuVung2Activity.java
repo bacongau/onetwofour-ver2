@@ -115,7 +115,7 @@ public class ThemTuVung2Activity extends AppCompatActivity {
                         }else if (validateDulieu(a,b,c) == 3){
                             edt_hinh.setError("Không để trống trường này");
                         }else {
-                            TuVung tuVung = new TuVung(a,b,c);
+                            TuVung tuVung = new TuVung(b,c,a);
                             DatabaseReference drTuVung = FirebaseDatabase.getInstance().getReference();
                             drTuVung.child("ngu phap").child(d).child("tu vung").push().setValue(tuVung);
 

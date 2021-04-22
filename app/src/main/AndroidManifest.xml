@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Onetwofour">
-        <activity android:name=".Activities.ThemBaiNgheActivity"></activity>
+        <activity android:name=".Activities.ThemBaiDocActivity"></activity>
+        <activity android:name=".Activities.ThemBaiNgheActivity" />
         <activity android:name=".Activities.ThemMauCau2Activity" />
         <activity android:name=".Activities.ThemMauCauActivity" />
         <activity android:name=".Activities.ThemTuVung2Activity" />

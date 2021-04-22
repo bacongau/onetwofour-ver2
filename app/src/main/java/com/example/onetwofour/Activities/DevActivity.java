@@ -42,6 +42,14 @@ public class DevActivity extends AppCompatActivity {
                 startActivity(new Intent(DevActivity.this,ThemBaiNgheActivity.class));
             }
         });
+        btn_thembaidoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DevActivity.this,ThemBaiDocActivity.class));
+            }
+        });
+
+        btn_themquiz.setVisibility(View.INVISIBLE);
     }
 
     private void anhxa() {

@@ -1,31 +1,27 @@
 package com.example.onetwofour.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.onetwofour.Adapter.LuyenDocViewPagerAdapter;
-import com.example.onetwofour.Adapter.NguPhapViewPagerAdapter;
-import com.example.onetwofour.Database.DataBase;
 import com.example.onetwofour.Model.BaiDoc;
 import com.example.onetwofour.R;
-import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class BaiDocActivity extends AppCompatActivity {
-    String DATABASE_NAME = "LuyenDoc db.db";
-    SQLiteDatabase database;
+    DatabaseReference mDatabase;
 
     TextView tv_eng,tv_viet;
     ArrayList<BaiDoc> baiDocArrayList;
@@ -42,8 +38,7 @@ public class BaiDocActivity extends AppCompatActivity {
         a = getMyData();
         docdulieu();
 
-        tv_viet.setText(baiDocArrayList.get(0).getVietsub());
-        tv_eng.setText(baiDocArrayList.get(0).getEngsub());
+
 
         sv_eng.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -60,6 +55,7 @@ public class BaiDocActivity extends AppCompatActivity {
     }
 
     private void anhxa() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         tv_eng = findViewById(R.id.tv_script_eng);
         tv_viet = findViewById(R.id.tv_script_viet);
         sv_eng = findViewById(R.id.sv_engsub);
@@ -68,16 +64,50 @@ public class BaiDocActivity extends AppCompatActivity {
     }
 
     private void docdulieu() {
-        database = DataBase.initDatabase(BaiDocActivity.this, DATABASE_NAME);
-        Cursor cursor = database.rawQuery("SELECT * FROM Luyendoc WHERE ten = '" + a + "'", null);
-        baiDocArrayList.clear();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            String tentopic = cursor.getString(0);
-            byte[] hinh = cursor.getBlob(1);
-            String engsub = cursor.getString(2);
-            String vietsub = cursor.getString(3);
-            baiDocArrayList.add(new BaiDoc(tentopic, hinh,engsub,vietsub));
-        }
+        mDatabase.child("bai doc").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                BaiDoc baiDoc = snapshot.getValue(BaiDoc.class);
+                baiDocArrayList.add(baiDoc);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                BaiDoc baiDoc = new BaiDoc();
+                for (int i = 0;i<baiDocArrayList.size();i++){
+                    if (baiDocArrayList.get(i).getTen().equalsIgnoreCase(a)){
+                        baiDoc = baiDocArrayList.get(i);
+                    }
+                }
+                tv_viet.setText(baiDoc.getViet());
+                tv_eng.setText(baiDoc.getEng());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

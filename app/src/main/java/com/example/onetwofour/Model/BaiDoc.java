@@ -1,50 +1,50 @@
 package com.example.onetwofour.Model;
 
 public class BaiDoc {
-    private String tenbaidoc;
-    private byte[] hinh;
-    private String engsub;
-    private String vietsub;
+    private String ten;
+    private String hinh;
+    private String eng;
+    private String viet;
 
     public BaiDoc() {
     }
 
-    public BaiDoc(String tenbaidoc, byte[] hinh, String engsub, String vietsub) {
-        this.tenbaidoc = tenbaidoc;
-        this.hinh = hinh;
-        this.engsub = engsub;
-        this.vietsub = vietsub;
+    public String getTen() {
+        return ten;
     }
 
-    public String getTenbaidoc() {
-        return tenbaidoc;
+    public void setTen(String ten) {
+        this.ten = ten;
     }
 
-    public void setTenbaidoc(String tenbaidoc) {
-        this.tenbaidoc = tenbaidoc;
-    }
-
-    public byte[] getHinh() {
+    public String getHinh() {
         return hinh;
     }
 
-    public void setHinh(byte[] hinh) {
+    public void setHinh(String hinh) {
         this.hinh = hinh;
     }
 
-    public String getEngsub() {
-        return engsub;
+    public String getEng() {
+        return eng;
     }
 
-    public void setEngsub(String engsub) {
-        this.engsub = engsub;
+    public void setEng(String eng) {
+        this.eng = eng;
     }
 
-    public String getVietsub() {
-        return vietsub;
+    public String getViet() {
+        return viet;
     }
 
-    public void setVietsub(String vietsub) {
-        this.vietsub = vietsub;
+    public void setViet(String viet) {
+        this.viet = viet;
+    }
+
+    public BaiDoc(String ten, String hinh, String eng, String viet) {
+        this.ten = ten;
+        this.hinh = hinh;
+        this.eng = eng;
+        this.viet = viet;
     }
 }

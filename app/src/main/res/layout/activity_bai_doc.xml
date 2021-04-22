@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.BaiDocActivity"
-    android:background="@drawable/bgallapp">
+    tools:context=".Activities.BaiDocActivity">
 
     <ScrollView
         android:id="@+id/sv_engsub"
@@ -42,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Script"
-                    android:textColor="#686767"
+                    android:textColor="#000"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -53,7 +52,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="this is English script"
-                android:textColor="#686767"
+                android:textColor="#000"
                 android:textSize="18dp" />
 
         </LinearLayout>
@@ -93,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Script"
-                    android:textColor="#686767"
+                    android:textColor="#000"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -104,7 +103,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="this is Vietnamese script"
-                android:textColor="#686767"
+                android:textColor="#000"
                 android:textSize="18dp" />
 
         </LinearLayout>
