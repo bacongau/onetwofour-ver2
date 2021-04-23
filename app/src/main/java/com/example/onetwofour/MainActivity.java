@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
         anhxa();
         sukien();
 
-//        lyt_dev.setVisibility(View.INVISIBLE);
-//        String data = getIntent().getStringExtra("data");
-//        if (data.equals("admin")){
-//            lyt_dev.setVisibility(View.VISIBLE);
-//        }
+        lyt_dev.setVisibility(View.INVISIBLE);
+        String data = getIntent().getStringExtra("data");
+        if (data.equals("admin")){
+            lyt_dev.setVisibility(View.VISIBLE);
+        }
     }
 
     private void sukien() {

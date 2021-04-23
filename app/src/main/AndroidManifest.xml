@@ -38,13 +38,15 @@
         <activity android:name=".Activities.LuyenDocActivity" />
         <activity android:name=".Activities.LuyenNgheActivity" />
         <activity android:name=".Activities.NguPhapActivity" />
-        <activity android:name=".WelcomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".WelcomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+
         </activity>
     </application>
 
