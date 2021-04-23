@@ -25,7 +25,7 @@
         android:text="Script"
         android:textSize="25dp"
         android:textStyle="bold"
-        android:textColor="#514F4F"
+        android:textColor="#000"
         app:layout_constraintBottom_toBottomOf="@+id/imageView10"
         app:layout_constraintStart_toEndOf="@+id/imageView10"
         app:layout_constraintTop_toTopOf="@+id/imageView10" />
@@ -47,7 +47,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="24dp"
         android:text="This is script"
-        android:textColor="#504F4F"
+        android:textColor="#000"
         android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView15"
